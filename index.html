@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Responsive</title>
+  <!-- Incluir Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./static/css/style.css">
+
+</head>
+<body>
+
+<audio id="base" autoplay="autoplay" preload="auto">
+  <source src="./static/sounds/base.mp3" type="audio/mp3">
+</audio>
+
+<audio id="question" autoplay="autoplay" preload="auto">
+  <source src="./static/sounds/question.mp3" type="audio/mp3">
+</audio>
+
+<audio id="correct" autoplay="autoplay" preload="auto">
+  <source src="./static/sounds/correct.mp3" type="audio/mp3">
+</audio>
+
+<audio id="incorrect" autoplay="autoplay" preload="auto">
+  <source src="./static/sounds/incorrect.mp3" type="audio/mp3">
+</audio>
+
+<div class="header" id="game-header" style="display: none">
+    <div class="logo" style="display: none">
+		<span class="glyphicon glyphicon-heart" id="game-icon-girl" style="color: #ff15a4; display: none"></span><span id="game-name-girl"></span>
+		<span class="glyphicon glyphicon-sunglasses" id="game-icon-boy" style="display: none"></span><span id="game-name-boy"></span>
+	</div>
+    <div class="btn score"><span class="glyphicon glyphicon-star"></span> Puntos: <span id="game-score">0</span></div>
+</div>
+
+<div class="wrapper">
+	
+	<span class="texto-animado" style="display: none">+ 100 Puntos</span>
+	
+	<div class="container center" id="data-start">
+		<span class="text-start" style="top: 40%;">Bienvenidos a<br>PreguntApp</span>
+		<button type="button" onclick="Start()" class="btn btn-success btn-lg btn3d" style="font-size: 35pt; margin-top: 200px; z-index: 1000;"><span class="glyphicon glyphicon-ok-sign"></span> Comenzar</button>
+	</div>
+	
+	<div class="container center" id="data-info" style="display: none">
+		<span class="text-start" style="top: 30%;">Datos del Jugador</span>
+		<form class="form" style="top: 10%;">
+			<input type="text" id="data-name" placeholder="¿ Como te llamas ?" required>
+			<input type="email" id="data-email" placeholder="¿ Cual es tu Correo ?" required>
+			<button type="button" onclick="Back('start')" class="btn btn-warning btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
+			<button type="button" onclick="selectGender()" class="btn btn-primary btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-right"></span> Siguiente</button>
+		</form>
+	</div>
+	
+	<div class="container center" id="data-gender" style="display: none">
+		<span class="text-start" style="top: 30%;">Tu Genero</span>
+		<form class="form" style="top: 5%;">
+			<button type="button" class="btn3d btn btn-default btn-lg" onclick="setGender('boy')"><span class="glyphicon glyphicon-sunglasses"></span> Soy Hombre</button>
+			<button type="button" class="btn3d btn btn-default btn-lg" onclick="setGender('girl')"><span class="glyphicon glyphicon-heart"></span> Soy Mujer</button>
+			<br>
+			<button type="button" onclick="Back('info')" class="btn btn-warning btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
+		</form>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-8">
+			<div class="container center" id="data-1" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 1 de 30</span><br><br>
+				<span class="text-question">1. ¿Cómo está conformado el sistema de seguridad social?</span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'a', 2)">(A) ARL, programas de pyp tratamiento y rehabilitación de las enfermedades generales.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'b', 2)">(B) Salud, pensiones y riesgos profesionales.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'c', 2)">(C) Consejo de seguridad social y ministerio de protección social.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'd', 2)">(D) Superintendencia nacional de salud y consejo nacional de seguridad social.</button><br>
+					<button type="button" onclick="Back('gender')" class="btn btn-warning btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
+				</form>
+			</div>
+			<div class="container center" id="data-2" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 2 de 30</span><br><br>
+				<span class="text-question">2. Las empresas promotoras de salud son aquellas que: </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'a', 3)">(A) Pueden ser de diferentes niveles de complejidad.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'b', 3)">(B) Recolectan los aportes de solidaridad provenientes del RC y dirigidos al RC.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'c', 3)">(C) Constituye un paquete de beneficios al cual tiene derecho el usuario.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'd', 3)">(D) Garantiza directa o indirectamente la prestación del Pos a los afiliados.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-3" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 3 de 30</span><br><br>
+				<span class="text-question">3. ¿Cuál de las siguientes opciones es una causa común de ceguera irreversible? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'a', 4)">(A) Conjuntivitis.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'b', 4)">(B) Glaucoma.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'c', 4)">(C) Miopía.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'd', 4)">(D) Blefaritis.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-4" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 4 de 30</span><br><br>
+				<span class="text-question">4. ¿Qué condición se caracteriza por la pérdida gradual de la visión central? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'a', 5)">(A) Cataratas.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'b', 5)">(B) Degeneración macular.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'c', 5)">(C) Glaucoma.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'd', 5)">(D) Conjuntivitis.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-5" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 5 de 30</span><br><br>
+				<span class="text-question">5. ¿Cuál de las siguientes afirmaciones describe mejor la retinopatía diabética? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'a', 6)">(A) Pérdida de la visión central debido a cataratas.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'b', 6)">(B) Daño a los vasos sanguíneos de la retina debido a la diabetes.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'c', 6)">(C) Inflamación del nervio óptico debido a la presión ocular elevada.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'd', 6)">(D) Infección bacteriana en la superficie del ojo.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-6" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 6 de 30</span><br><br>
+				<span class="text-question">6. ¿Cuál de las siguientes afecciones está relacionada con la visión doble? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'a', 7)">(A) Estrabismo.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'b', 7)">(B) Presbicia.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'c', 7)">(C) Astigmatismo.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'd', 7)">(D) Daltonismo.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-7" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 7 de 30</span><br><br>
+				<span class="text-question">7. ¿Qué trastorno se caracteriza por una curvatura irregular de la córnea, lo que resulta en visión borrosa? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'a', 8)">(A) Cataratas.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'b', 8)">(B) Astigmatismo.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'c', 8)">(C) Glaucoma.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'd', 8)">(D) Conjuntivitis.</button><br>
+				</form>
+			</div>	
+			<div class="container center" id="data-8" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 8 de 30</span><br><br>
+				<span class="text-question">8. ¿Cuál de las siguientes opciones es un síntoma común de ojo seco? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'a', 9)">(A) Visión nocturna mejorada.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'b', 9)">(B) Enrojecimiento y ardor.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'c', 9)">(C) Sensibilidad a la luz.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'd', 9)">(D) Aumento de la presión intraocular.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-9" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 9 de 30</span><br><br>
+				<span class="text-question">9. ¿Qué condición se caracteriza por un aumento anormal de la presión dentro del ojo? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'a', 10)">(A) Conjuntivitis.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'b', 10)">(B) Presbicia.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'c', 10)">(C) Glaucoma.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'd', 10)">(D) Degeneración macular.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-10" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 10 de 30</span><br><br>
+				<span class="text-question">10. ¿Cuál de las siguientes afecciones está relacionada con la pérdida de la capacidad de enfoque de cerca debido al envejecimiento del cristalino? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'a', 11)">(A) Miopía.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'b', 11)">(B) Astigmatismo.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'c', 11)">(C) Presbicia.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'd', 11)">(D) Daltonismo.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-11" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 11 de 30</span><br><br>
+				<span class="text-question">11. ¿Qué trastorno se caracteriza por una falta de desarrollo completo del nervio óptico, lo que resulta en una reducción severa de la visión desde el nacimiento? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'a', 12)">(A) Estrabismo.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'b', 12)">(B) Glaucoma congénito.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'c', 12)">(C) Degeneración macular.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'd', 12)">(D) Conjuntivitis alérgica.</button><br>
+				</form>
+			</div>
+			<div class="container center" id="data-12" style="display: none">
+				<span class="text-start" style="top: 20%;">Pregunta 12 de 30</span><br><br>
+				<span class="text-question">12. ¿Cuál de los siguientes tipos de estrabismo se caracteriza por la desviación hacia adentro del ojo? </span>
+				<form class="text" style="top: 0%;">
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'a', 13)">(A) Endotropía.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'b', 13)">(B) Exotropía.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'c', 13)">(C) Hipertropía.</button><br>
+					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'd', 13)">(D) Heterotropía.</button><br>
+				</form>
+			</div>
+			
+			
+		</div>
+		<div class="col-md-4">
+			
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			
+	
+		  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+		  <svg style="margin-top: 14%;" viewBox="0 30 210 257" version="1.1" isd="svg5" sodipodi:docname="ahorcado.svg" inkscape:version="1.1 (c68e22c387, 2021-05-23)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">  
+			<defs>
+			  <pattern id="textura-madera" x="0" y="0" width="100" height="60" patternUnits="userSpaceOnUse">
+				<image xlink:href="./static/img/madera.jpg" x="0" y="0" width="100" height="60" />
+			  </pattern>
+			</defs>
+			<defs>
+			  <pattern id="textura-madera-2" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+				<image xlink:href="./static/img/madera.jpg" x="0" y="0" width="100" height="100" />
+			  </pattern>
+			</defs>
+			<defs>
+			  <pattern id="textura-concreto" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+				<image xlink:href="./static/img/concreto.jpg" x="0" y="0" width="100" height="100" />
+			  </pattern>
+			</defs>
+			<defs>
+			  <pattern id="textura-cuerda" x="0" y="0" width="100" height="60" patternUnits="userSpaceOnUse">
+				<image xlink:href="./static/img/cuerda.jpg" x="0" y="0" width="100" height="55" />
+			  </pattern>
+			</defs>
+			<sodipodi:namedview id="namedview7" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:pageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:document-units="mm" showgrid="false" inkscape:zoom="0.59717191" inkscape:cx="449.61927" inkscape:cy="585.2586" inkscape:window-width="1024" inkscape:window-height="705" inkscape:window-x="-4" inkscape:window-y="-4" inkscape:window-maximized="1" inkscape:current-layer="g2306" />
+			<g inkscape:label="Capa 1 copia 1" inkscape:groupmode="layer" id="g3354">
+			  <rect width="20.050634" height="229.00818" x="40.759335" y="44.181683" style="fill: url(#textura-madera); stroke-width: 0.340253;" id="poste-vertical" />
+			  <rect width="117.79747" height="26.943035" x="6.2773501e-07" y="270.24048" style="fill: url(#textura-concreto); stroke-width:0.293289" id="poste-horizontal-base"/>
+			  <rect width="145.56366" height="13.158227" x="25.689871" y="48.873417" style="fill: url(#textura-madera-2); stroke-width:0.293289" stroke-width:0.199059" id="poste-horizontal-cuerda"/>
+			  <rect style="fill:url(#textura-cuerda);stroke-width:0.280633" width="5.6392426" height="21.303799" x="158.52531" y="62.031643" id="cuerda-1"/>
+			  <ellipse style="stroke-width:0.259699" class="path-ahorcado" cx="161.91776" cy="90.449371" rx="18.170887" ry="17.506296" id="cabeza"/>
+			  <path style="stroke-width:0.22153" class="path-ahorcado" d="m 159.50181,169.98273 c -5.26097,-0.39642 -9.08599,-2.80389 -11.06985,-6.96739 -1.10287,-2.31455 -1.87748,-5.19517 -2.43408,-9.05179 -0.86613,-6.00137 -0.99601,-8.96171 -0.99623,-22.70686 -2.3e-4,-14.25923 0.0534,-15.07598 1.18724,-18.07229 0.88829,-2.34747 2.66859,-3.7977 5.57855,-4.54426 1.88776,-0.48431 14.15044,-0.71511 16.86965,-0.31751 4.75737,0.69562 6.53721,2.42603 7.63907,7.42694 0.27998,1.27071 0.3597,3.96993 0.4415,14.94854 0.21246,28.51407 -0.84151,36.34571 -5.17678,38.46676 -0.89163,0.43623 -1.71906,0.61915 -3.44924,0.76249 -2.19883,0.18218 -6.53602,0.21013 -8.58983,0.0554 z" id="cuerpo" />
+			  <path style="stroke-width:0.22153" class="path-ahorcado" d="m 122.61701,146.35618 c -0.99826,-0.46142 -1.48013,-1.12749 -1.60276,-2.21547 -0.23792,-2.11082 0.84823,-3.63139 4.32579,-6.05597 7.40217,-5.16084 13.07762,-11.83659 17.7892,-20.92456 1.96428,-3.78881 2.86046,-4.84432 4.11305,-4.84432 1.67636,0 2.49526,1.31069 2.0527,3.28547 -0.3479,1.55238 -2.51701,6.90111 -4.28255,10.56017 -2.84366,5.89344 -5.20447,9.38384 -8.94075,13.21869 -4.97525,5.1065 -10.87801,8.16697 -13.45468,6.97599 z" id="brazo-izquierdo" />
+			  <path style="stroke-width:0.22153" class="path-ahorcado" d="m 194.90643,146.6698 c -4.08974,-1.30781 -9.54959,-5.70836 -13.36497,-10.77195 -2.89158,-3.83758 -5.59359,-8.93886 -8.20791,-15.49614 -1.84492,-4.62749 -2.03372,-5.87445 -1.05525,-6.96956 0.50243,-0.56231 0.81707,-0.71754 1.45442,-0.71754 1.29246,0 1.997,0.68731 3.28205,3.20183 4.84578,9.48197 10.32838,16.40987 16.71035,21.11547 1.31047,0.96625 2.9527,2.17685 3.64939,2.69024 1.50259,1.10724 2.32387,2.22799 2.67798,3.65444 0.2312,0.93133 0.20779,1.14919 -0.2179,2.02856 -0.80686,1.66676 -2.39568,2.07448 -4.92816,1.26465 z" id="brazo-derecho" />
+			  <path style="stroke-width:0.31329" class="path-ahorcado" d="m 147.28004,207.35172 c -1.34115,-1.1285 -1.64384,-2.50257 -1.22962,-5.58179 0.43223,-3.2131 0.49069,-14.052 0.14554,-26.98035 -0.37604,-14.08508 0.0575,-17.3228 2.47314,-18.46909 0.93033,-0.44147 1.18988,-0.44923 2.11393,-0.0631 1.48964,0.62241 2.8327,2.39544 4.17167,5.50719 1.63592,3.80184 1.72021,5.68672 0.47009,10.5119 -1.10105,4.24981 -1.20394,6.41449 -0.5066,10.6587 0.62904,3.82848 0.59003,6.39109 -0.1488,9.7763 -0.48965,2.24349 -0.60701,3.8164 -0.54826,7.34767 0.0673,4.04744 0.0109,4.60177 -0.56876,5.58857 -1.46065,2.48643 -4.48224,3.29444 -6.37233,1.70403 z" id="pierna-izquierda" />
+			  <path style="stroke-width:0.31329" class="path-ahorcado" d="m 174.93061,209.12396 c 1.34115,-1.1285 1.64384,-2.50257 1.22962,-5.58179 -0.43223,-3.2131 -0.49069,-14.052 -0.14554,-26.98035 0.37604,-14.08508 -0.0575,-17.3228 -2.47314,-18.46909 -0.93033,-0.44147 -1.18988,-0.44923 -2.11393,-0.0631 -1.48964,0.62241 -2.8327,2.39544 -4.17167,5.50719 -1.63592,3.80184 -1.72021,5.68672 -0.47009,10.5119 1.10105,4.24981 1.20394,6.41449 0.5066,10.6587 -0.62904,3.82848 -0.59003,6.39109 0.1488,9.7763 0.48965,2.24349 0.60701,3.8164 0.54826,7.34767 -0.0673,4.04744 -0.0109,4.60177 0.56876,5.58857 1.46065,2.48643 4.48224,3.29444 6.37233,1.70403 z" id="pierna-derecha" />
+			  <path style="fill: url(#textura-cuerda);stroke-width:0.264583px; stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" class="path-ahorcado" d="m 154.26902,103.02365 c 1.80221,1.62505 3.6223,3.39548 5.95253,4.07279 1.81143,0.52651 3.79452,0.32294 5.53824,-0.39675 1.74372,-0.71969 3.25704,-1.93253 4.48707,-3.36275 0.14485,-0.16843 0.2883,-0.34205 0.46994,-0.46994 0.19917,-0.14022 0.43936,-0.21971 0.68257,-0.23308 0.24321,-0.0134 0.48884,0.0386 0.70897,0.14286 0.44026,0.20854 0.76631,0.62244 0.91834,1.08526 0.15204,0.46283 0.13982,0.96967 0.0198,1.44182 -0.11998,0.47215 -0.34361,0.91259 -0.60662,1.32264 -1.31217,2.04577 -3.54613,3.3099 -5.79589,4.22943 -1.33919,0.54736 -2.72294,1.00381 -4.15146,1.23269 -1.42851,0.22887 -2.90655,0.22531 -4.30739,-0.13617 -2.02578,-0.52274 -3.78374,-1.75524 -5.4826,-2.97627 -1.04503,-0.7511 -2.11094,-1.53197 -2.81124,-2.6117 -0.35014,-0.53987 -0.60138,-1.15089 -0.67638,-1.78998 -0.075,-0.63909 0.0331,-1.3068 0.35471,-1.86414 0.3059,-0.53012 0.81462,-0.95385 1.40981,-1.09652 0.60477,-0.14497 1.25066,0.005 1.80258,0.29179 0.55192,0.28662 1.02511,0.70156 1.48698,1.11802 z" inkscape:path-effect="#path-effect3739" inkscape:original-d="m 154.26902,103.02365 c 1.09625,0.46967 3.96862,2.71545 5.95253,4.07279 1.98391,1.35733 6.68381,-2.50607 10.02531,-3.7595 3.34151,-1.25343 0.31356,-0.31302 0.46994,-0.46994 0.15638,-0.1569 1.149,2.5066 1.7231,3.7595 0.5741,1.2529 -3.86366,2.81989 -5.79589,4.22943 -1.93222,1.40955 -5.63897,0.73128 -8.45885,1.09652 -2.81989,0.36524 -3.65481,-1.98391 -5.4826,-2.97627 -1.8278,-0.99235 -2.08834,-4.17695 -3.13291,-6.26582 -1.04457,-2.08888 0.94014,-0.73075 1.40981,-1.09652 0.46967,-0.36577 2.1933,0.94014 3.28956,1.40981 z" id="cuerda-cuello"/>
+			  <line x1="150" y1="90" x2="160" y2="80" style="stroke:#ffffff; stroke-width:2" id="ojo-izquierdo-1" />
+			  <line x1="160" y1="90" x2="150" y2="80" style="stroke:#ffffff;stroke-width:2"  id="ojo-izquierdo-2" />
+			  <line x1="164" y1="90" x2="174" y2="80" style="stroke:#ffffff; stroke-width:2" id="ojo-derecho-1"/>
+			  <line x1="174" y1="90" x2="164" y2="80" style="stroke:#ffffff; stroke-width:2" id="ojo-derecho-2"/>
+			  <line x1="155" y1="100" x2="170" y2="95" style="stroke:#ffffff;stroke-width:2" id="boca"/>
+			</g>
+		  </svg>
+		</div>
+	</div>
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<div class="icon-left" id="sunglasses"><span class="glyphicon glyphicon-sunglasses"></span></div>
+	<div class="icon-right" id="eye"><span class="glyphicon glyphicon-eye-open"></span></div>
+	
+</div>
+
+<footer>
+ <span class="glyphicon glyphicon-education"></span> Programa de Optometría Áreandina 
+</footer>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+
+<script>
+
+success = []
+error = []
+
+$('.firework').hide()
+
+questions = {
+	'1':'b',
+	'2':'d',
+	'3':'b',
+	'4':'b',
+	'5':'b',
+	'6':'a',
+	'7':'b',
+	'8':'b',
+	'9':'c',
+	'10':'c',
+	'11':'b',
+	'12':'a',
+	'13':'b',
+	'14':'c',
+	'15':'c',
+	'16':'a',
+	'17':'c',
+	'18':'c',
+	'19':'d',
+	'20':'c',
+}
+
+game = {
+	'1':'poste-horizontal-base',
+	'2':'poste-vertical',	
+	'3':'poste-horizontal-cuerda',	
+	'4':'cuerda-1',	
+	'5':'cabeza',	
+	'6':'cuerpo',	
+	'7':'brazo-izquierdo',	
+	'8':'brazo-derecho',	
+	'9':'pierna-izquierda',	
+	'10':'pierna-derecha',	
+	'11':'ojo-izquierdo-1',	
+	'12':'ojo-izquierdo-2',	
+	'13':'ojo-derecho-1',	
+	'14':'ojo-derecho-2',	
+	'15':'boca',	
+	'16':'cuerda-cuello',	
+}
+
+
+for (var key in game) {
+    if (game.hasOwnProperty(key)) {
+        var value = game[key];
+        $('#'+value).removeClass('aparecer').hide()
+    }
+}
+
+
+function Start() {
+	$('#data-start').hide()
+	$('#data-info').show()
+	document.getElementById("base").play();
+}
+
+function selectGender() {
+	name = $('#data-name').val().trim();
+	email = $('#data-email').val().trim();
+	if (name === '' || email === '') {
+		alert('Completa los datos')
+	}else{
+		$('#data-info').hide()
+		$('#data-gender').show()
+	}
+}
+
+
+function setGender(gender){
+	document.getElementById("base").pause()
+	document.getElementById("question").play()
+	$('#game-header').show()
+	name = $('#data-name').val()
+	email = $('#data-email').val()
+	$('.logo').show()
+	$('#game-name-boy').text('')
+	$('#game-name-girl').text('')
+	$('#game-icon-boy').hide()
+	$('#game-icon-girl').hide()
+	$('#game-name-'+gender).text(' '+ name +' | ' + email).show()
+	$('#game-icon-'+gender).show()
+	$('#data-gender').hide()
+	$('#data-1').show()
+	$('#sunglasses').hide()
+	$('#eye').hide()
+}
+
+
+function Back(steep) {
+	
+	if (steep == 'start'){
+		$('#data-info').hide()
+		$('#data-start').show()
+		document.getElementById("base").pause();
+	}
+	
+	if (steep == 'info'){
+		$('#data-gender').hide()
+		$('#data-info').show()
+	}
+	
+	if (steep == 'gender'){
+		$('#game-header').hide()
+		$('#data-1').hide()
+		$('#data-gender').show()
+		$('#sunglasses').show()
+		$('#eye').show()
+	}
+	
+}
+
+
+function hideScore(){
+	$('.texto-animado').hide()
+	$('.firework').hide()
+}
+
+
+function ValidateQuestions(question, response, next){
+	
+	$('.firework').hide()
+	$('.texto-animado').hide()
+	correct = questions[question]
+	score = parseInt($('#game-score').text())
+	
+	if (response == correct){
+		setTimeout(hideScore, 2000);
+		$('.texto-animado').show()
+		new_score = score + 100
+		$('.firework').show()
+		$('#game-score').text(new_score)
+		document.getElementById("correct").play();
+		success.push(question)
+	}else{
+		document.getElementById("incorrect").play();
+		error.push(question)
+		$('#'+game[error.length]).addClass('aparecer').show()
+	}
+		
+	$('#data-'+question).hide()
+	$('#data-'+next).show()
+	
+	document.getElementById("question").play();
+	
+}
+
+</script>
+
+
+</html>
+
+
