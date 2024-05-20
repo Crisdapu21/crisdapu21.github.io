@@ -7,6 +7,7 @@
   <!-- Incluir Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="./static/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
 </head>
 <body>
@@ -65,7 +66,9 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-8" id="data-questions">
+			
+			<!--
 			<div class="container center" id="data-1" style="display: none">
 				<span class="text-start" style="top: 20%;">Pregunta 1 de 30</span><br><br>
 				<span class="text-question">1. ¿Cómo está conformado el sistema de seguridad social?</span>
@@ -257,7 +260,7 @@
 					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'd', 19)">(D) Coroides.</button><br>
 				</form>
 			</div>
-			
+			-->
 			
 			
 		</div>
@@ -368,12 +371,112 @@
 
 <script>
 
+
+	var answers = {};
+	var data_questions = []
+	var questions = []
+
+    var selectedFile;
+	//fetch('https://cors-anywhere.herokuapp.com/https://github.com/Crisdapu21/crisdapu21.github.io/raw/main/data/preguntas.xlsx')
+    function fetchExcelFile() {
+      fetch('https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/1ypOpkPbSvcLaa5z012NG60-SkN2lKGhB4BAKwdz8IfM')
+        .then(response => response.blob())
+        .then(blob => {
+          selectedFile = new File([blob], "preguntas.xlsx");
+          processFile(selectedFile);
+        })
+        .catch(error => console.error('Error fetching the file:', error));
+    }
+
+    function processFile(file) {
+      var fileReader = new FileReader();
+      fileReader.onload = function(event) {
+        var data = event.target.result;
+
+        var workbook = XLSX.read(data, {
+          type: "binary"
+        });
+        workbook.SheetNames.forEach(sheet => {
+          let rowObject = XLSX.utils.sheet_to_row_object_array(
+            workbook.Sheets[sheet]
+          );
+          let jsonObject = JSON.stringify(rowObject, null, 2);
+
+		  rowObject.forEach(elemento => {
+			if (elemento.A != 'Pregunta' && elemento.A != undefined){
+				data_questions.push({
+					'question':elemento.A,
+					'A':elemento.B,
+					'B':elemento.C,
+					'C':elemento.D,
+					'D':elemento.E,
+					'answer':elemento.F,
+				})
+			}
+		  });
+        });
+      };
+      fileReader.readAsBinaryString(file);
+    }
+    
+    function generarIndicesAleatorios() {
+		let numeros = [];
+		var count = 0;
+		for (let i = 0; i < data_questions.length; i++) {
+			numeros.push(i);
+		}
+		for (let i = numeros.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[numeros[i], numeros[j]] = [numeros[j], numeros[i]];
+		}
+		for (let indice of numeros) {
+			console.log(data_questions[indice])
+			questions.push(data_questions[indice])
+		}
+		
+		questions.forEach(element => {
+			count = count + 1
+			element['number'] = count
+			element['next'] = count + 1
+			console.log(element, 'elemento')
+			$('#data-questions').append(
+				'<div class="container center" id="data-' + element['number'] + '" style="display: none">' +
+					'<span class="text-start" style="top: 20%;">Pregunta ' + element['number'] + ' de '+data_questions.length+'</span><br><br>' +
+					'<span class="text-question">' + element['number'] + '. ' + element['question'] + '</span>' +
+					'<form class="text" style="top: 0%;">' +
+						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'A\', ' + element['next'] + ')">(A) ' + element['A'] + '</button><br>' +
+						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'B\', ' + element['next'] + ')">(B) ' + element['B'] + '</button><br>' +
+						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'C\', ' + element['next'] + ')">(C) ' + element['C'] + '</button><br>' +
+						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'D\', ' + element['next'] + ')">(D) ' + element['D'] + '</button><br>' +
+					'</form>' +
+				'</div>'
+			);
+		});
+	}
+    
+    $(window).on('load', function() {
+		fetchExcelFile();
+		 setTimeout(function() {
+			let indicesAleatorios = generarIndicesAleatorios();
+		}, 3000);
+		
+		 
+	
+	});
+    
+    
+    
+   
+		  
+
+    
+  
 success = []
 error = []
 
 $('.firework').hide()
 
-questions = {
+responses = {
 	'1':'b',
 	'2':'d',
 	'3':'b',
@@ -496,7 +599,7 @@ function ValidateQuestions(question, response, next){
 	
 	$('.firework').hide()
 	$('.texto-animado').hide()
-	correct = questions[question]
+	correct = responses[question]
 	score = parseInt($('#game-score').text())
 	
 	if (response == correct){
