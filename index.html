@@ -373,8 +373,11 @@
 
 
 	var answers = {};
-	var data_questions = []
-	var questions = []
+	var data_questions = [];
+	var questions = [];
+	var success = [];
+	var error = [];
+
 
     var selectedFile;
 	//fetch('https://cors-anywhere.herokuapp.com/https://github.com/Crisdapu21/crisdapu21.github.io/raw/main/data/preguntas.xlsx')
@@ -439,6 +442,7 @@
 			element['number'] = count
 			element['next'] = count + 1
 			console.log(element, 'elemento')
+			answers[count] = element['answer']
 			$('#data-questions').append(
 				'<div class="container center" id="data-' + element['number'] + '" style="display: none">' +
 					'<span class="text-start" style="top: 20%;">Pregunta ' + element['number'] + ' de '+data_questions.length+'</span><br><br>' +
@@ -459,45 +463,13 @@
 		 setTimeout(function() {
 			let indicesAleatorios = generarIndicesAleatorios();
 		}, 3000);
-		
-		 
-	
 	});
     
     
-    
-   
-		  
 
-    
-  
-success = []
-error = []
 
 $('.firework').hide()
 
-responses = {
-	'1':'b',
-	'2':'d',
-	'3':'b',
-	'4':'b',
-	'5':'b',
-	'6':'a',
-	'7':'b',
-	'8':'b',
-	'9':'c',
-	'10':'c',
-	'11':'b',
-	'12':'a',
-	'13':'b',
-	'14':'c',
-	'15':'c',
-	'16':'a',
-	'17':'c',
-	'18':'c',
-	'19':'d',
-	'20':'c',
-}
 
 game = {
 	'1':'poste-horizontal-base',
@@ -599,7 +571,7 @@ function ValidateQuestions(question, response, next){
 	
 	$('.firework').hide()
 	$('.texto-animado').hide()
-	correct = responses[question]
+	correct = answers[question]
 	score = parseInt($('#game-score').text())
 	
 	if (response == correct){
