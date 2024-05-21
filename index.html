@@ -196,10 +196,10 @@
 		  <line x1="155" y1="100" x2="170" y2="95" style="stroke:#ffffff;stroke-width:2" id="boca"/>
 		</g>
 	  </svg>`;
-	  
+	 
+	/*
     var selectedFile;
-	//fetch('https://cors-anywhere.herokuapp.com/https://github.com/Crisdapu21/crisdapu21.github.io/raw/main/data/preguntas.xlsx')
-    function fetchExcelFile() {
+	function fetchExcelFile() {
       fetch('https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/1ypOpkPbSvcLaa5z012NG60-SkN2lKGhB4BAKwdz8IfM')
         .then(response => response.blob())
         .then(blob => {
@@ -240,9 +240,239 @@
       fileReader.readAsBinaryString(file);
     }
     
+    */
+    
     function generarIndicesAleatorios() {
-		let numeros = [];
+		
+		
+		questions = [
+			{
+				"question": "¿Cuál músculo del ojo es responsable de la depresión y abducción del globo ocular?",
+				"A": "Recto superior",
+				"B": "Recto inferior",
+				"C": "Oblicuo superior",
+				"D": "Oblicuo inferior",
+				"answer": "C",
+				"number": 1,
+				"next": 2
+			},
+			{
+				"question": "¿Qué forma tienen los lentes que se usan para el tratamiento de la hipermetropía?",
+				"A": "Cóncavos",
+				"B": "Convexos",
+				"C": "Asimétricos",
+				"D": "Planos",
+				"answer": "B",
+				"number": 2,
+				"next": 3
+			},
+			{
+				"question": "¿Cómo se llaman las células que perciben los colores?",
+				"A": "Gangliomas",
+				"B": "Células amacrinas",
+				"C": "Bastones",
+				"D": "Conos",
+				"answer": "D",
+				"number": 3,
+				"next": 4
+			},
+			{
+				"question": "¿Cuál es una medida importante para el tratamiento de un orzuelo en casa?",
+				"A": "Aplicar compresas frías sobre el orzuelo.",
+				"B": "Exprimir y drenar el orzuelo para eliminar la infección.",
+				"C": "Evitar el lavado de manos antes de tocar el área afectada.",
+				"D": "Aplicar compresas calientes sobre el orzuelo varias veces al día",
+				"answer": "D",
+				"number": 4,
+				"next": 5
+			},
+			{
+				"question": "¿Qué función cumplen las pestañas durante el parpadeo?",
+				"A": "Ayudan a eliminar el exceso de lágrimas.",
+				"B": "Protegen el ojo del polvo y las partículas",
+				"C": "Distribuyen uniformemente las lágrimas sobre la superficie ocular.",
+				"D": "Contribuyen a la acomodación del ojo.",
+				"answer": "B",
+				"number": 5,
+				"next": 6
+			},
+			{
+				"question": "¿Cómo se llama la prueba que utiliza una tira de papel para medir la producción de lágrimas?",
+				"A": "Prueba de Rose de Bengala.",
+				"B": "Angiografía con fluoresceína.",
+				"C": "Prueba de Schirmer.",
+				"D": "Tomografía de coherencia óptica",
+				"answer": "C",
+				"number": 6,
+				"next": 7
+			},
+			{
+				"question": "Enfermedad auto inmune que causa daños en el nervio óptico por pérdida de mielina:",
+				"A": "Lupus",
+				"B": "Esclerosis múltiple",
+				"C": "Artritis reumatoide",
+				"D": "Miastenia grave",
+				"answer": "B",
+				"number": 7,
+				"next": 8
+			},
+			{
+				"question": "¿Cuál de los siguientes síntomas es menos común en la conjuntivitis alérgica?",
+				"A": "Picazón intensa.",
+				"B": "Enrojecimiento.",
+				"C": "Secreción espesa y purulenta.",
+				"D": "Lagrimeo.",
+				"answer": "C",
+				"number": 8,
+				"next": 9
+			},
+			{
+				"question": "¿Cuál es la segunda capa de la córnea?",
+				"A": "el epitelio",
+				"B": "la membrana de Bowman",
+				"C": "el endotelio",
+				"D": "la membrana de Descemet",
+				"answer": "B",
+				"number": 9,
+				"next": 10
+			},
+			{
+				"question": "Cómo está conformado el sistema de seguridad social",
+				"A": "ARL, programas de pyp tratamiento y rehabilitación de las enfermedades generales.",
+				"B": "Salud, pensiones y riesgos profesionales",
+				"C": "Consejo de seguridad social y ministerio de protección social.",
+				"D": "Superintendencia nacional de salud y consejo nacional de seguridad social.",
+				"answer": "B",
+				"number": 10,
+				"next": 11
+			},
+			{
+				"question": "Además de detectar lesiones, ¿qué otra utilidad tiene la fluoresceína?",
+				"A": "Identificar cuerpos extraños en el ojo.",
+				"B": "Medir la presión intraocular.",
+				"C": "Evaluar la respuesta pupilar.",
+				"D": "Determinar la agudeza visual.",
+				"answer": "A",
+				"number": 11,
+				"next": 12
+			},
+			{
+				"question": "¿Cuál de los siguientes no es un tipo de conjuntivitis?",
+				"A": "Conjuntivitis bacteriana.",
+				"B": "Conjuntivitis viral.",
+				"C": "Conjuntivitis fúngica.",
+				"D": "Conjuntivitis alérgica.",
+				"answer": "C",
+				"number": 12,
+				"next": 13
+			},
+			{
+				"question": "¿Qué etapa de atención de salud en Colombia se centra en la rehabilitación y cuidados paliativos?",
+				"A": "Atención primaria.",
+				"B": "Atención secundaria.",
+				"C": "Atención terciaria.",
+				"D": "Atención cuaternaria.",
+				"answer": "D",
+				"number": 13,
+				"next": 14
+			},
+			{
+				"question": "¿Qué norma (ley decreto etc) dictaminó el código de Ética de optometría?",
+				"A": "Ley 669 de 1997",
+				"B": "Ley 650 de 2001",
+				"C": "Decreto 1030 de 2007",
+				"D": "Decreto 825 de 1954",
+				"answer": "B",
+				"number": 14,
+				"next": 15
+			},
+			{
+				"question": "¿Qué servicios se incluyen típicamente en la atención primaria de salud en Colombia?",
+				"A": "Cirugías complejas.",
+				"B": "Atención de urgencias y emergencias.",
+				"C": "Promoción de la salud y prevención de enfermedades.",
+				"D": "Tratamiento de enfermedades crónicas avanzadas.",
+				"answer": "C",
+				"number": 15,
+				"next": 16
+			},
+			{
+				"question": "¿Cuál de las siguientes opciones es una causa común de ceguera irreversible?",
+				"A": "Conjuntivitis.",
+				"B": "Glaucoma.",
+				"C": "Miopía.",
+				"D": "Blefaritis",
+				"answer": "B",
+				"number": 16,
+				"next": 17
+			},
+			{
+				"question": "¿Cuál de las siguientes glándulas produce la capa acuosa de las lágrimas?",
+				"A": "Glándulas de Meibomio.",
+				"B": "Glándulas lacrimales principales.",
+				"C": "Glándulas lacrimales principales.",
+				"D": "Glándulas de Wolfring.",
+				"answer": "B",
+				"number": 17,
+				"next": 18
+			},
+			{
+				"question": "¿Cuál es el nombre del dispositivo que los optómetras utilizan para examinar el fondo del ojo, incluyendo la retina y el nervio óptico?",
+				"A": "Oftalmoscopio",
+				"B": "Lámpara de hendidura",
+				"C": "Queratómetro",
+				"D": "Retinoscopio",
+				"answer": "A",
+				"number": 18,
+				"next": 19
+			},
+			{
+				"question": "¿Cuál es el dispositivo utilizado para medir la curvatura de la córnea, esencial en la adaptación de lentes de contacto?",
+				"A": "Retinoscopio",
+				"B": "Lámpara de hendidura",
+				"C": "Queratómetro",
+				"D": "Oftalmoscopio",
+				"answer": "C",
+				"number": 19,
+				"next": 20
+			},
+			{
+				"question": "¿Cuál es la función principal de la película lagrimal?",
+				"A": "Mantener la superficie del ojo lubricada.",
+				"B": "Proteger el ojo de cuerpos extraños.",
+				"C": "Regular la presión intraocular.",
+				"D": "Mejorar la agudeza visual.",
+				"answer": "A",
+				"number": 20,
+				"next": 21
+			},
+			{
+				"question": "Las empresas promotoras de salud son aquellas que:",
+				"A": "Pueden ser de diferentes niveles de complejidad.",
+				"B": "Recolectan los aportes de solidaridad provenientes del RC y dirigidos al RC.",
+				"C": "Constituye un paquete de beneficios al cual tiene derecho el usuario.",
+				"D": "Garantiza directa o indirectamente la prestación del Pos a los afiliados.",
+				"answer": "D",
+				"number": 21,
+				"next": 22
+			},
+			{
+				"question": "¿Qué instrumento se usa para determinar la prescripción exacta de lentes correctivos mediante la medición de la refracción del ojo?",
+				"A": "Autorrefractómetro",
+				"B": "Foróptero",
+				"C": "Lensómetro",
+				"D": "Tonometría",
+				"answer": "B",
+				"number": 22,
+				"next": 23
+			}
+		]
+		
 		var count = 0;
+		
+		/*
+		let numeros = [];
+		
 		for (let i = 0; i < data_questions.length; i++) {
 			numeros.push(i);
 		}
@@ -253,6 +483,7 @@
 		for (let indice of numeros) {
 			questions.push(data_questions[indice])
 		}
+		*/
 		
 		questions.forEach(element => {
 			count = count + 1
@@ -262,7 +493,7 @@
 			answers[count] = element['answer']
 			$('#data-questions').append(
 				'<div class="container center-question" id="data-' + element['number'] + '" style="display: none">' +
-					'<span class="text-animation top-20">Pregunta ' + element['number'] + ' de '+data_questions.length+'</span>' +
+					'<span class="text-animation top-20">Pregunta ' + element['number'] + ' de '+questions.length+'</span>' +
 					'<span class="text-question">' + element['number'] + '. ' + element['question'] + '</span>' +
 					'<form class="form-answer">' +
 						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'A\', ' + element['next'] + ')">(A) ' + element['A'] + '</button><br>' +
@@ -276,10 +507,7 @@
 	}
     
     $(window).on('load', function() {
-		fetchExcelFile();
-		 setTimeout(function() {
-			let indicesAleatorios = generarIndicesAleatorios();
-		}, 3000);
+		let indicesAleatorios = generarIndicesAleatorios();
 		$('.firework').hide()
 	});
 		
