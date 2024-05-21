@@ -19,6 +19,20 @@ body{
 }
 
 
+.modal-dialog {
+    width: 560px;
+    margin: 0px !important;
+    left: 35%;
+    right: 50%;
+    top: 14%;
+    background-color: #333333;
+    border: 10px solid;
+}
+
+.modal-content {
+    background-color: #333333;
+}
+
 @keyframes animacionTexto {
   0% {
     opacity: 0;
@@ -37,7 +51,7 @@ body{
   font-family: 'button';
   position: fixed;
   top: 15%;
-  right: 5%;
+  right: 23%;
   transform: translate(-30%, -30%);
   font-size: 30pt;
   font-weight: bold;
@@ -768,7 +782,7 @@ form input:focus {
 	}
 	
 	.text-end {
-		font-size: 16pt;
+		font-size: 20pt;
 		margin-top: 0%;
 	}
 	
