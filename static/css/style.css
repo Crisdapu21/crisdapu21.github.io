@@ -736,7 +736,7 @@ form input:focus {
 	}
 	
 	.text-animation{
-		font-size: 33pt;
+		font-size: 25pt;
 	}
 
 	.btn-start{
@@ -748,7 +748,7 @@ form input:focus {
 	}
 	
 	.btnQuestion{
-		font-size: 14pt !important;
+		font-size: 12pt !important;
         width: 100% !important;
         margin-top: 15px !important;
         white-space: normal;
@@ -758,13 +758,13 @@ form input:focus {
 		font-size: 16pt;
 	}
 	
-	.text-logo, .socre {
-		font-size: 17pt;
+	.text-logo{
+		font-size: 14pt;
 	}
 
 	.text-question {
 		font-size: 16pt;
-		margin-top: 35%;
+		margin-top: 28%;
 	}
 	
 	.text-end {
@@ -773,7 +773,7 @@ form input:focus {
 	}
 	
 	.score {
-		font-size: 16pt;
+		font-size: 14pt;
 		margin-bottom: 15px;
     }
     
