@@ -7,8 +7,8 @@
   <!-- Incluir Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="./static/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
 </head>
 <body>
 
@@ -29,11 +29,15 @@
 </audio>
 
 <div class="header" id="game-header" style="display: none">
-    <div class="logo" style="display: none">
-		<span class="glyphicon glyphicon-heart" id="game-icon-girl" style="color: #ff15a4; display: none"></span><span id="game-name-girl"></span>
-		<span class="glyphicon glyphicon-sunglasses" id="game-icon-boy" style="display: none"></span><span id="game-name-boy"></span>
+    <div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-8" id="text-gender">
+				<span class="glyphicon glyphicon-heart" id="game-icon-girl" style="color: #ff15a4; display: none"></span><span class="text-logo" id="game-name-girl"></span>
+				<span class="glyphicon glyphicon-sunglasses" id="game-icon-boy" style="display: none"></span><span class="text-logo" id="game-name-boy"></span>
+			</div>
+			<div class="col-xs-12 col-md-4"><div class="btn score"><span class="glyphicon glyphicon-star"></span> Puntos: <span id="game-score">0</span></div></div>
+		</div>
 	</div>
-    <div class="btn score"><span class="glyphicon glyphicon-star"></span> Puntos: <span id="game-score">0</span></div>
 </div>
 
 <div class="wrapper">
@@ -41,23 +45,23 @@
 	<span class="texto-animado" style="display: none">+ 100 Puntos</span>
 	
 	<div class="container center" id="data-start">
-		<span class="text-start" style="top: 40%;">Bienvenidos a<br>PreguntApp</span>
-		<button type="button" onclick="Start()" class="btn btn-success btn-lg btn3d" style="font-size: 35pt; margin-top: 200px; z-index: 1000;"><span class="glyphicon glyphicon-ok-sign"></span> Comenzar</button>
+		<span class="text-start text-animation data-start">Bienvenidos a<br>PreguntApp</span>
+		<button type="button" onclick="Start()" class="btn btn-success btn-lg btn3d btn-start" style="font-size: 35pt; z-index: 1000;"><span class="glyphicon glyphicon-ok-sign"></span> Comenzar</button>
 	</div>
 	
 	<div class="container center" id="data-info" style="display: none">
-		<span class="text-start" style="top: 30%;">Datos del Jugador</span>
-		<form class="form" style="top: 10%;">
+		<span class="text-animation data-info">Datos del Jugador</span>
+		<form class="form form-info">
 			<input type="text" id="data-name" placeholder="¿ Como te llamas ?" required>
 			<input type="email" id="data-email" placeholder="¿ Cual es tu Correo ?" required>
-			<button type="button" onclick="Back('start')" class="btn btn-warning btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
-			<button type="button" onclick="selectGender()" class="btn btn-primary btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-right"></span> Siguiente</button>
+			<button type="button" onclick="Back('start')" class="btn btn-warning btn-lg btn3d"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
+			<button type="button" onclick="selectGender()" class="btn btn-primary btn-lg btn3d"><span class="glyphicon glyphicon-circle-arrow-right"></span> Siguiente</button>
 		</form>
 	</div>
 	
 	<div class="container center" id="data-gender" style="display: none">
-		<span class="text-start" style="top: 30%;">Tu Genero</span>
-		<form class="form" style="top: 5%;">
+		<span class="text-animation data-gender">Tu Genero</span>
+		<form class="form form-gender">
 			<button type="button" class="btn3d btn btn-default btn-lg" onclick="setGender('boy')"><span class="glyphicon glyphicon-sunglasses"></span> Soy Hombre</button>
 			<button type="button" class="btn3d btn btn-default btn-lg" onclick="setGender('girl')"><span class="glyphicon glyphicon-heart"></span> Soy Mujer</button>
 			<br>
@@ -65,229 +69,35 @@
 		</form>
 	</div>
 	
-	<div class="row">
-		<div class="col-md-8" id="data-questions">
-			
-			<!--
-			<div class="container center" id="data-1" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 1 de 30</span><br><br>
-				<span class="text-question">1. ¿Cómo está conformado el sistema de seguridad social?</span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'a', 2)">(A) ARL, programas de pyp tratamiento y rehabilitación de las enfermedades generales.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'b', 2)">(B) Salud, pensiones y riesgos profesionales.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'c', 2)">(C) Consejo de seguridad social y ministerio de protección social.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(1, 'd', 2)">(D) Superintendencia nacional de salud y consejo nacional de seguridad social.</button><br>
-					<button type="button" onclick="Back('gender')" class="btn btn-warning btn-lg btn3d" style="font-size: 25pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-circle-arrow-left"></span> Atras</button>
-				</form>
-			</div>
-			<div class="container center" id="data-2" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 2 de 30</span><br><br>
-				<span class="text-question">2. Las empresas promotoras de salud son aquellas que: </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'a', 3)">(A) Pueden ser de diferentes niveles de complejidad.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'b', 3)">(B) Recolectan los aportes de solidaridad provenientes del RC y dirigidos al RC.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'c', 3)">(C) Constituye un paquete de beneficios al cual tiene derecho el usuario.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(2, 'd', 3)">(D) Garantiza directa o indirectamente la prestación del Pos a los afiliados.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-3" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 3 de 30</span><br><br>
-				<span class="text-question">3. ¿Cuál de las siguientes opciones es una causa común de ceguera irreversible? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'a', 4)">(A) Conjuntivitis.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'b', 4)">(B) Glaucoma.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'c', 4)">(C) Miopía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(3, 'd', 4)">(D) Blefaritis.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-4" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 4 de 30</span><br><br>
-				<span class="text-question">4. ¿Qué condición se caracteriza por la pérdida gradual de la visión central? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'a', 5)">(A) Cataratas.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'b', 5)">(B) Degeneración macular.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'c', 5)">(C) Glaucoma.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(4, 'd', 5)">(D) Conjuntivitis.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-5" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 5 de 30</span><br><br>
-				<span class="text-question">5. ¿Cuál de las siguientes afirmaciones describe mejor la retinopatía diabética? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'a', 6)">(A) Pérdida de la visión central debido a cataratas.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'b', 6)">(B) Daño a los vasos sanguíneos de la retina debido a la diabetes.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'c', 6)">(C) Inflamación del nervio óptico debido a la presión ocular elevada.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(5, 'd', 6)">(D) Infección bacteriana en la superficie del ojo.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-6" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 6 de 30</span><br><br>
-				<span class="text-question">6. ¿Cuál de las siguientes afecciones está relacionada con la visión doble? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'a', 7)">(A) Estrabismo.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'b', 7)">(B) Presbicia.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'c', 7)">(C) Astigmatismo.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(6, 'd', 7)">(D) Daltonismo.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-7" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 7 de 30</span><br><br>
-				<span class="text-question">7. ¿Qué trastorno se caracteriza por una curvatura irregular de la córnea, lo que resulta en visión borrosa? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'a', 8)">(A) Cataratas.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'b', 8)">(B) Astigmatismo.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'c', 8)">(C) Glaucoma.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(7, 'd', 8)">(D) Conjuntivitis.</button><br>
-				</form>
-			</div>	
-			<div class="container center" id="data-8" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 8 de 30</span><br><br>
-				<span class="text-question">8. ¿Cuál de las siguientes opciones es un síntoma común de ojo seco? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'a', 9)">(A) Visión nocturna mejorada.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'b', 9)">(B) Enrojecimiento y ardor.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'c', 9)">(C) Sensibilidad a la luz.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(8, 'd', 9)">(D) Aumento de la presión intraocular.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-9" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 9 de 30</span><br><br>
-				<span class="text-question">9. ¿Qué condición se caracteriza por un aumento anormal de la presión dentro del ojo? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'a', 10)">(A) Conjuntivitis.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'b', 10)">(B) Presbicia.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'c', 10)">(C) Glaucoma.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(9, 'd', 10)">(D) Degeneración macular.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-10" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 10 de 30</span><br><br>
-				<span class="text-question">10. ¿Cuál de las siguientes afecciones está relacionada con la pérdida de la capacidad de enfoque de cerca debido al envejecimiento del cristalino? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'a', 11)">(A) Miopía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'b', 11)">(B) Astigmatismo.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'c', 11)">(C) Presbicia.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(10, 'd', 11)">(D) Daltonismo.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-11" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 11 de 30</span><br><br>
-				<span class="text-question">11. ¿Qué trastorno se caracteriza por una falta de desarrollo completo del nervio óptico, lo que resulta en una reducción severa de la visión desde el nacimiento? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'a', 12)">(A) Estrabismo.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'b', 12)">(B) Glaucoma congénito.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'c', 12)">(C) Degeneración macular.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(11, 'd', 12)">(D) Conjuntivitis alérgica.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-12" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 12 de 30</span><br><br>
-				<span class="text-question">12. ¿Cuál de los siguientes tipos de estrabismo se caracteriza por la desviación hacia adentro del ojo? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'a', 13)">(A) Endotropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'b', 13)">(B) Exotropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'c', 13)">(C) Hipertropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(12, 'd', 13)">(D) Heterotropía.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-13" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 13 de 30</span><br><br>
-				<span class="text-question">13. ¿Qué tipo de estrabismo implica una desviación hacia afuera del ojo? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(13, 'a', 14)">(A) Esotropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(13, 'b', 14)">(B) Exotropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(13, 'c', 14)">(C) Hipotropía.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(13, 'd', 14)">(D) Endotropía.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-14" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 14 de 30</span><br><br>
-				<span class="text-question">14. ¿Cuál de las siguientes partes del ojo es responsable de enfocar la luz en la retina? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(14, 'a', 15)">(A) Córnea.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(14, 'b', 15)">(B) Iris.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(14, 'c', 15)">(C) Cristalino.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(14, 'd', 15)">(D) Esclerótica.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-15" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 15 de 30</span><br><br>
-				<span class="text-question">15. ¿Qué estructura del ojo controla la cantidad de luz que entra en el ojo? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(15, 'a', 16)">(A) Córnea.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(15, 'b', 16)">(B) Retina.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(15, 'c', 16)">(C) Pupila.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(15, 'd', 16)">(D) Conjuntiva.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-16" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 16 de 30</span><br><br>
-				<span class="text-question">16. Es una inflamación de los párpados que causa irritación y enrojecimiento y descamación. </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(16, 'a', 17)">(A) Blefaritis.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(16, 'b', 17)">(B) Conjuntivitis.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(16, 'c', 17)">(C) Dermatitis.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(16, 'd', 17)">(D) Eritema.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-17" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 17 de 30</span><br><br>
-				<span class="text-question">17. ¿Qué parte del ojo es responsable de proteger y lubricar la superficie del ojo?. </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(17, 'a', 18)">(A) Pupila.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(17, 'b', 18)">(B) Esclerótica.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(17, 'c', 18)">(C) Conjuntiva.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(17, 'd', 18)">(D) Retina.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-18" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 18 de 30</span><br><br>
-				<span class="text-question">18. ¿Cuál de las siguientes estructuras del ojo ayuda a mantener su forma y proporciona un lugar de inserción para los músculos oculares? </span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'a', 19)">(A) Córnea.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'b', 19)">(B) Cristalino.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'c', 19)">(C) Esclerótica.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'd', 19)">(D) Coroides.</button><br>
-				</form>
-			</div>
-			<div class="container center" id="data-19" style="display: none">
-				<span class="text-start" style="top: 20%;">Pregunta 19 de 30</span><br><br>
-				<span class="text-question">19. ¿Qué parte del ojo ajusta su forma para enfocar la luz en la retina, permitiendo la visión clara de objetos cercanos y lejanos?</span>
-				<form class="text" style="top: 0%;">
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'a', 19)">(A) Córnea.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'b', 19)">(B) Cristalino.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'c', 19)">(C) Esclerótica.</button><br>
-					<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(18, 'd', 19)">(D) Coroides.</button><br>
-				</form>
-			</div>
-			-->
-			
-			
-		</div>
-		<div class="col-md-4">
-			
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			<div class="firework"></div>
-			
+	<div class="container center" id="data-end" style="display: none">
+		<span class="text-animation data-end">Juego Terminado</span>
+		<span class="text-end">Correctas: <span id="text-correct">0</span><br>Incorrectas: <span id="text-incorrect">0</span></span>
+		<button type="button" onclick="location.reload()" class="btn btn-warning btn-lg btn3d" style="font-size: 35pt; margin-top: 50px; z-index: 1000;"><span class="glyphicon glyphicon-ok-sign"></span> Regresar al Inicio</button>
+	</div>
 	
+	<div class="row">
+		<div class="col-md-8" id="data-questions"></div>
+		<div class="col-md-4">
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
+			<div class="firework"></div>
 		  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-		  <svg style="margin-top: 14%;" viewBox="0 30 210 257" version="1.1" isd="svg5" sodipodi:docname="ahorcado.svg" inkscape:version="1.1 (c68e22c387, 2021-05-23)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">  
+		  <svg viewBox="0 30 210 257" version="1.1" isd="svg5" sodipodi:docname="ahorcado.svg" inkscape:version="1.1 (c68e22c387, 2021-05-23)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">  
 			<defs>
 			  <pattern id="textura-madera" x="0" y="0" width="100" height="60" patternUnits="userSpaceOnUse">
 				<image xlink:href="./static/img/madera.jpg" x="0" y="0" width="100" height="60" />
@@ -367,10 +177,7 @@
 
 </body>
 
-<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
-
 <script>
-
 
 	var answers = {};
 	var data_questions = [];
@@ -433,7 +240,6 @@
 			[numeros[i], numeros[j]] = [numeros[j], numeros[i]];
 		}
 		for (let indice of numeros) {
-			console.log(data_questions[indice])
 			questions.push(data_questions[indice])
 		}
 		
@@ -444,10 +250,10 @@
 			console.log(element, 'elemento')
 			answers[count] = element['answer']
 			$('#data-questions').append(
-				'<div class="container center" id="data-' + element['number'] + '" style="display: none">' +
-					'<span class="text-start" style="top: 20%;">Pregunta ' + element['number'] + ' de '+data_questions.length+'</span><br><br>' +
+				'<div class="container center-question" id="data-' + element['number'] + '" style="display: none">' +
+					'<span class="text-animation top-20">Pregunta ' + element['number'] + ' de '+data_questions.length+'</span>' +
 					'<span class="text-question">' + element['number'] + '. ' + element['question'] + '</span>' +
-					'<form class="text" style="top: 0%;">' +
+					'<form class="form-answer">' +
 						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'A\', ' + element['next'] + ')">(A) ' + element['A'] + '</button><br>' +
 						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'B\', ' + element['next'] + ')">(B) ' + element['B'] + '</button><br>' +
 						'<button type="button" class="btn3d btn btn-default btn-lg btnQuestion" onclick="ValidateQuestions(' + element['number'] + ', \'C\', ' + element['next'] + ')">(C) ' + element['C'] + '</button><br>' +
@@ -463,47 +269,46 @@
 		 setTimeout(function() {
 			let indicesAleatorios = generarIndicesAleatorios();
 		}, 3000);
+		
+		game = {
+			'1':'poste-horizontal-base',
+			'2':'poste-vertical',	
+			'3':'poste-horizontal-cuerda',	
+			'4':'cuerda-1',	
+			'5':'cabeza',	
+			'6':'cuerpo',	
+			'7':'brazo-izquierdo',	
+			'8':'brazo-derecho',	
+			'9':'pierna-izquierda',	
+			'10':'pierna-derecha',	
+			'11':'ojo-izquierdo-1',	
+			'12':'ojo-izquierdo-2',	
+			'13':'ojo-derecho-1',	
+			'14':'ojo-derecho-2',	
+			'15':'boca',	
+			'16':'cuerda-cuello',	
+		}
+
+		games = {}
+		for (var key in game) {
+				if (game.hasOwnProperty(key)) {
+					var value = game[key];
+					$('#'+value).removeClass('aparecer').hide()
+				}
+		}
+		
+		$('.firework').hide()
+
 	});
-    
-    
-
-
-$('.firework').hide()
-
-
-game = {
-	'1':'poste-horizontal-base',
-	'2':'poste-vertical',	
-	'3':'poste-horizontal-cuerda',	
-	'4':'cuerda-1',	
-	'5':'cabeza',	
-	'6':'cuerpo',	
-	'7':'brazo-izquierdo',	
-	'8':'brazo-derecho',	
-	'9':'pierna-izquierda',	
-	'10':'pierna-derecha',	
-	'11':'ojo-izquierdo-1',	
-	'12':'ojo-izquierdo-2',	
-	'13':'ojo-derecho-1',	
-	'14':'ojo-derecho-2',	
-	'15':'boca',	
-	'16':'cuerda-cuello',	
-}
-
-
-for (var key in game) {
-    if (game.hasOwnProperty(key)) {
-        var value = game[key];
-        $('#'+value).removeClass('aparecer').hide()
-    }
-}
-
-
+		
+		
+	
 function Start() {
 	$('#data-start').hide()
 	$('#data-info').show()
 	document.getElementById("base").play();
 }
+
 
 function selectGender() {
 	name = $('#data-name').val().trim();
@@ -540,6 +345,7 @@ function setGender(gender){
 function Back(steep) {
 	
 	if (steep == 'start'){
+		$('#data-end').hide()
 		$('#data-info').hide()
 		$('#data-start').show()
 		document.getElementById("base").pause();
@@ -582,14 +388,20 @@ function ValidateQuestions(question, response, next){
 		$('#game-score').text(new_score)
 		document.getElementById("correct").play();
 		success.push(question)
+		$('#text-correct').text(success.length)
 	}else{
 		document.getElementById("incorrect").play();
 		error.push(question)
+		$('#text-incorrect').text(error.length)
 		$('#'+game[error.length]).addClass('aparecer').show()
 	}
-		
-	$('#data-'+question).hide()
-	$('#data-'+next).show()
+	
+	if (error.length >= 17 || question == questions.length){
+		$('#data-end').show()
+	}else{
+		$('#data-'+question).hide()
+		$('#data-'+next).show()
+	}
 	
 	document.getElementById("question").play();
 	
